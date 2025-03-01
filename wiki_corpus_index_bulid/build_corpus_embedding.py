@@ -3,64 +3,6 @@ import pickle
 from FlagEmbedding import FlagModel
 import os
 
-# # split_id = 7
-# # file_path = f"resources/enwiki-20171001-pages-meta-current-withlinks-abstracts/split_{split_id}"
-# # save_path = f"resources/enwiki-20171001-pages-meta-current-withlinks-abstracts/bge-large-en-v1.5-split_{split_id}.pickle"
-
-# # # 定义一个函数从文件中加载语料库
-# # def load_corpus(file_path):
-# #     with open(file_path, 'r', encoding='utf-8') as file:
-# #         corpus = file.readlines()
-# #         corpus = [line.split('\t')[1].strip(' \n\t"').strip("'") for line in corpus]
-# #     return corpus
-
-
-# file_path = f"/opt/aps/workdir/RAG_RL/train/wiki_server/data/demo.tsv"
-# save_path = f"/opt/aps/workdir/RAG_RL/train/wiki_server/data/demo.pickle"
-
-# # 定义一个函数从文件中加载语料库
-# def load_corpus(file_path):
-#     with open(file_path, 'r', encoding='utf-8') as file:
-#         corpus = file.readlines()
-#         c_len = len(corpus)
-#         new_corpus = []
-#         line_num=0
-#         for line in corpus:
-#             line_num+=1
-#             if line_num % 10000 ==0:
-#                 print(f"Percent:{line_num}/{c_len}")
-
-#             title_text = line.split('\t')[1].strip('')
-
-#             line = title_text
-#             new_corpus.append(line)
-#     return new_corpus
-
-
-# # 调用函数加载语料库
-# print("Start load corpus")
-# corpus = load_corpus(file_path)
-# print(f"Load {len(corpus)} from {file_path}.")
-# # 打印加载的语料库
-# for sample in corpus[:2]:
-#     print(sample)
-
-# # Load model (automatically use GPUs)
-# model = FlagModel('/opt/aps/workdir/model/bge-large-en-v1.5',
-#                   query_instruction_for_retrieval="Represent this sentence for searching relevant passages:",
-#                   use_fp16=False)
-
-# print("Start encode")
-# corpus_embeddings = model.encode_corpus(corpus, batch_size=1024, max_length=300)
-
-# print("shape of the corpus embeddings:", corpus_embeddings.shape)
-# print("data type of the embeddings: ", corpus_embeddings.dtype)
-
-# print("Start save")
-# with open(save_path, 'ab') as f:
-#     pickle.dump(corpus_embeddings,f)
-# print("Save over")
-
 
 import argparse
 import pickle

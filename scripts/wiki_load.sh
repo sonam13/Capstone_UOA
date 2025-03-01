@@ -1,1 +1,1 @@
-python /opt/aps/workdir/sht-RAG_RL/train/wiki_server/wiki_server_start.py hotpotqa 5004 &
+python /home/songhuatong/Reason-Searcher/train/wiki_corpus_load.py hotpotqa 5004 &

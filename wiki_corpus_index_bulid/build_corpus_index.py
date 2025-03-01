@@ -4,14 +4,7 @@ import faiss
 import pickle
 import os
 import numpy as np
-# from FlagEmbedding import LLMEmbedder
 
-# demo="/opt/aps/workdir/RAG_RL/train/wiki_server/data/split_0.pickle"
-# with open(demo, 'rb') as f:
-#     ce = pickle.load(f)
-# print(len(ce))
-# print(ce[0:10])
-# kill
 all_corpus_embeddings = []
 first_tensors = []
 for i in range(14):
@@ -51,13 +44,3 @@ path = "/opt/aps/workdir/model/kilt_100/enwiki_kilt_all.bin"
 # path = "/media/jiangjinhao/RAG-Star/enwiki-abs-index_w_title-bge-large-en-v1.5.bin"
 faiss.write_index(index, path)
 
-# queries = ["Who is Aaron?"]
-# model = LLMEmbedder('/media/jiangjinhao/RAG-Star/llm-embedder', use_fp16=False)
-# task = "qa"
-# query_embeddings = model.encode_queries(queries, task=task)
-# dists, ids = index.search(query_embeddings, k=3)
-# print(dists)
-# print(ids)
-
-# for i, q in enumerate(queries):
-#     print(f"query:\t{q}\nanswer:\t{corpus[ids[i][0]]}\n")
