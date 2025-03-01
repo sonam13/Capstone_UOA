@@ -44,8 +44,11 @@ We propose **Reason-Searcher**, utilizing a *two-stage outcome-supervision reinf
     - Llama-3.1-8B-Instruct-RAG-RL: https://huggingface.co/XXsongLALA/Llama-3.1-8B-instruct-RAG-RL
 - Train-data:  https://huggingface.co/datasets/XXsongLALA/RAG-RL-Hotpotqa-with-2wiki
 - Technical report: coming soon…
-## ✨ Method
 
+
+## ✨ Key Insights
+
+## ✨ Method
 
 
 ## 📄 Benchmarks
@@ -57,8 +60,16 @@ We propose **Reason-Searcher**, utilizing a *two-stage outcome-supervision reinf
 
 
 ## 📄 Citation
+Please kindly cite our report if they are helpful for your research.
 
-
+```
+@article{Reason-Searcher,
+  title={Reason-Searcher:  Stimulating the Search Capability of LLM from Zero via Reinforcement Learning},
+  author={Huatong Song, Jinhao Jiang, Yingqian Min, Jie Chen, Zhipeng Chen, Wayne Xin Zhao, Ji-Rong Wen, Yang Lu, Xu Miu},
+  url={https://github.com/SsmallSong/Reason-Searcher},
+  year={2025}
+}
+```
 
 ## 📄 License
 
