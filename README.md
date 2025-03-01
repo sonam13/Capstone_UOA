@@ -1,5 +1,5 @@
 
-<h1 align="center"> XX: xxxxx</a></h1>
+<h1 align="center"> Reason-Searcher:  Incentivizing the Search Capability in LLMs via Reinforcement Learning</a></h1>
 
 
 <div align="center"> 
@@ -32,8 +32,6 @@
 
 <h5 align="center"> If you like our project, please give us a star ⭐ on GitHub for the latest update.</h5>
 
-## 📣 Latest News
-- **02/28/2025**: The Qwen-2.5-7B-RAGRL and Llama-3.1-8B-RAGRL have released, you can find them here : 
 
 ## 💡 Overview
 
@@ -48,8 +46,6 @@ We propose **Reason-Searcher**, utilizing a *two-stage outcome-supervision reinf
 - Technical report: coming soon…
 ## ✨ Method
 
-
-## 🔗 Model Downloads 
 
 
 ## 📄 Benchmarks
