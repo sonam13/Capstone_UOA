@@ -60,7 +60,7 @@ We propose **Reason-Searcher**, utilizing a *two-stage outcome-supervision reinf
 # ✨ Method
 ## Overall
 
-We employ a two-stage training approach:
+We employ a Two-Stage Reward Guided RL Training approach:
 
 Stage 1: Learn to invoke search with only format-reward.
 
@@ -90,7 +90,7 @@ HotpotQA and 2WikiMultiHopQA are considered in-domain as we use their training-s
 Wikipedia passages serve as the retrieval corpus for all datasets, specifically employing the [Wikipedia corpus released by KILT](https://github.com/facebookresearch/KILT) in August 2019. Additionally, due to the recency of the knowledge contained in Bamboogle, we incorporate online web search testing to conduct further evaluations, thereby examining the alignment of our model with online search capabilities. 
 
 For the evaluation metrics, we use the ACC_R (Cover-Exect-Match) and ACC_L (LLM-as-Judge).
-![benchmark](https://github.com/SsmallSong/Reason-Searcher/blob/main/assets/benchmark.jpg)
+![benchmark](https://github.com/SsmallSong/Reason-Searcher/blob/main/assets/final_benchmark.jpg)
 As we can see, when using the same LLaMA-3.1-8B-Instruct base model, our method has achieved significant improvements compared to existing methods, even surpassing closed-source models such as GPT-4o-mini. Furthermore, when switching to the more powerful base model, Qwen-2.5-7B-Base, we directly conduct reinforcement learning from scratch. Eventually, we can achieve better results and attain the best performance on all in-domain and out-of-domain datasets, demonstrating the exceptional generalization capabilities of our model.
 
 For Bamboogle, we additionally utilize Google for online searches. As we can see, compared to relying solely on a local knowledge base, the incorporation of online search yields superior results, indicating that it is feasible to seamlessly integrate online search capabilities into our model.
