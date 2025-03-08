@@ -1,5 +1,5 @@
 
-<h1 align="center"> Reason-Searcher:  Incentivizing the Search Capability in LLMs via Reinforcement Learning</a></h1>
+<h1 align="center"> R1-searcher:  Incentivizing the Search Capability in LLMs via Reinforcement Learning</a></h1>
 
 
 <div align="center"> 
@@ -37,7 +37,7 @@
 
 Large reasoning models (LRMs), such as OpnAI-o1 and Deepseek-R1, have demonstrated the significant impact of reinforcement learning in enhancing the long-step reasoning capabilities of models, thereby greatly improving their reasoning performance. Despite these advantages, when faced with knowledge-intensive problems, especially multi-hop questions and time-sensitive issues, these models may lack the necessary knowledge. Therefore, it is great important to enable LLMs to invoke web search and obtain external information during the reasoning process. 
 
-We propose **Reason-Searcher**, utilizing a *two-stage outcome-supervision reinforcement learning* approach to enable the model to learn to invoke web search during the reasoning process: first allowing the model to learn how to invoke web search, and then teaching it how to effectively use that search engine. This method does not require any instruction fine-tuning for cold start, and at the same time, it is compatible with existing Base LLMs or Chat LLMs. We will open-source the training code, inference code, model checkpoints, and the detailed technical report.
+We propose **R1-searcher**, utilizing a *two-stage outcome-supervision reinforcement learning* approach to enable the model to learn to invoke web search during the reasoning process: first allowing the model to learn how to invoke web search, and then teaching it how to effectively use that search engine. This method does not require any instruction fine-tuning for cold start, and at the same time, it is compatible with existing Base LLMs or Chat LLMs. We will open-source the training code, inference code, model checkpoints, and the detailed technical report.
 
 - Notion: https://sweet-walkover-f9b.notion.site/R1-Searcher-Incentivizing-the-Search-Capability-in-LLMs-via-Reinforcement-Learning-1a8c27a43d7a8023a70adc6e519875ff?pvs=74
 - Model:
@@ -46,7 +46,7 @@ We propose **Reason-Searcher**, utilizing a *two-stage outcome-supervision reinf
 - Train-data:  https://huggingface.co/datasets/XXsongLALA/RAG-RL-Hotpotqa-with-2wiki
 - Technical report: coming soon…
 
-![benchmark_picture](https://github.com/SsmallSong/Reason-Searcher/blob/main/assets/benchmark_performance-3.png)
+![benchmark_picture](https://github.com/SsmallSong/R1-searcher/blob/main/assets/benchmark_performance-3.png)
 
 # ✨ Key Insights
 - By relying solely on outcome-supervised reinforcement learning, we can activate the model's intrinsic search capabilities using only the query-answer pair, regardless of whether we are dealing with Base LLMs or Chat LLMs.
@@ -90,11 +90,11 @@ HotpotQA and 2WikiMultiHopQA are considered in-domain as we use their training-s
 Wikipedia passages serve as the retrieval corpus for all datasets, specifically employing the [Wikipedia corpus released by KILT](https://github.com/facebookresearch/KILT) in August 2019. Additionally, due to the recency of the knowledge contained in Bamboogle, we incorporate online web search testing to conduct further evaluations, thereby examining the alignment of our model with online search capabilities. 
 
 For the evaluation metrics, we use the ACC_R (Cover-Exect-Match) and ACC_L (LLM-as-Judge).
-![benchmark](https://github.com/SsmallSong/Reason-Searcher/blob/main/assets/final_benchmark.jpg)
+![benchmark](https://github.com/SsmallSong/R1-searcher/blob/main/assets/final_benchmark.jpg)
 As we can see, when using the same LLaMA-3.1-8B-Instruct base model, our method has achieved significant improvements compared to existing methods, even surpassing closed-source models such as GPT-4o-mini. Furthermore, when switching to the more powerful base model, Qwen-2.5-7B-Base, we directly conduct reinforcement learning from scratch. Eventually, we can achieve better results and attain the best performance on all in-domain and out-of-domain datasets, demonstrating the exceptional generalization capabilities of our model.
 
 For Bamboogle, we additionally utilize Google for online searches. As we can see, compared to relying solely on a local knowledge base, the incorporation of online search yields superior results, indicating that it is feasible to seamlessly integrate online search capabilities into our model.
-![bamboogle](https://github.com/SsmallSong/Reason-Searcher/blob/main/assets/bamboogle_web.png)
+![bamboogle](https://github.com/SsmallSong/R1-searcher/blob/main/assets/bamboogle_web.png)
 
 
 
@@ -106,10 +106,10 @@ For Bamboogle, we additionally utilize Google for online searches. As we can see
 Please kindly cite our report if they are helpful for your research.
 
 ```
-@article{Reason-Searcher,
-  title={Reason-Searcher:  Stimulating the Search Capability of LLM from Zero via Reinforcement Learning},
+@article{R1-searcher,
+  title={R1-searcher:  Stimulating the Search Capability of LLM from Zero via Reinforcement Learning},
   author={Huatong Song, Jinhao Jiang, Yingqian Min, Jie Chen, Zhipeng Chen, Wayne Xin Zhao, Ji-Rong Wen, Yang Lu, Xu Miu},
-  url={https://github.com/SsmallSong/Reason-Searcher},
+  url={https://github.com/SsmallSong/R1-searcher},
   year={2025}
 }
 ```
