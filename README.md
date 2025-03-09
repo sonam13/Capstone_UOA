@@ -46,7 +46,7 @@ We propose **R1-searcher**, utilizing a *two-stage outcome-supervision reinforce
 - Train-data:  https://huggingface.co/datasets/XXsongLALA/RAG-RL-Hotpotqa-with-2wiki
 - Technical report: coming soon…
 
-![benchmark_picture](https://github.com/SsmallSong/R1-Searcher/blob/main/assets/benchmarks-2.pdf)
+![benchmark_picture](https://github.com/SsmallSong/R1-Searcher/blob/main/assets/benchmarks_visible.jpg)
 
 # ✨ Key Insights
 - By relying solely on outcome-supervised reinforcement learning, we can activate the model's intrinsic search capabilities using only the query-answer pair, regardless of whether we are dealing with Base LLMs or Chat LLMs.
@@ -94,7 +94,7 @@ For the evaluation metrics, we use the ACC_R (Cover-Exect-Match) and ACC_L (LLM-
 As we can see, when using the same LLaMA-3.1-8B-Instruct base model, our method has achieved significant improvements compared to existing methods, even surpassing closed-source models such as GPT-4o-mini. Furthermore, when switching to the more powerful base model, Qwen-2.5-7B-Base, we directly conduct reinforcement learning from scratch. Eventually, we can achieve better results and attain the best performance on all in-domain and out-of-domain datasets, demonstrating the exceptional generalization capabilities of our model.
 
 For Bamboogle, we additionally utilize Google for online searches. As we can see, compared to relying solely on a local knowledge base, the incorporation of online search yields superior results, indicating that it is feasible to seamlessly integrate online search capabilities into our model.
-![bamboogle](https://github.com/SsmallSong/R1-Searcher/blob/main/assets/bamboogle-web-2.pdf)
+![bamboogle](https://github.com/SsmallSong/R1-Searcher/blob/main/assets/bamboogle_online.jpg)
 
 
 
