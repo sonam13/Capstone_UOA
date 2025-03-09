@@ -120,4 +120,4 @@ This project is released under the [MIT License](LICENSE).
 
 # 📞 Contact
 
-For any questions or feedback, please reach out to us at [3151273556@qq.com](3151273556@qq.com).
+For any questions or feedback, please reach out to us at [songhuatong123@ruc.edu.cn](songhuatong123@ruc.edu.cn).
