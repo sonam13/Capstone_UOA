@@ -120,10 +120,12 @@ cd R1-Searcher
 ## Process wiki only abs
 wget -nv --no-check-certificate https://rocketqa.bj.bcebos.com/corpus/nq.tar.gz
 tar -zxf nq.tar.gz
-rm -rf nq.tar.gz
+rm -rf nq.tar.gz # We only use the title and abs.
 
 ## Process wiki full texts
 wget http://dl.fbaipublicfiles.com/KILT/kilt_knowledgesource.json
+cd R1-Searcher
+python wiki_corpus_index_bulid/split_kilt_to_100.py
 
 ## Index the tsv file. We recommend splitting the original TSV file into n parts for embedding, otherwise the process will be very slow.
 python wiki_corpus_index_bulid/build_corpus_embedding.py --file_path the_tsv_file_path --save_path the_pickle_path --gpu_id 0
