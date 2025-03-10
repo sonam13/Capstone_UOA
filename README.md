@@ -117,7 +117,10 @@ pip install datasets
 ```bash
 cd R1-Searcher
 
-## download
+## Process wiki only abs
+
+## Process wiki full texts
+
 ```
 ## Training
 ```bash
@@ -140,11 +143,24 @@ bash scripts/qwen_reinforce_plus_train.sh | tee results/logs/qwen_reinforce_plus
 ```bash
 cd R1-Searcher
 
+## Local Search
 ## HotpotQA
-
+python train/wiki_corpus_load.py hotpotqa 5004 &
+python evaluation/eval_search_loacl.py --gpu_id 0 --temp 0.0 --port 5004 --prompt_type v0 --src_file  data/eval_set/hotpotqa_500.jsonl --model_path the_path_to_model
 ## 2Wiki, Musique, Bamboogle
+python train/wiki_corpus_load.py kilt 5005 &
+python evaluation/eval_search_loacl.py --gpu_id 0 --temp 0.0 --port 5005 --prompt_type v0 --src_file data/eval_set/bamboogle_500.jsonl --model_path the_path_to_model
 
+## Online Search
+## Bamboogle
+python evaluation/eval_search_online.py --gpu_id 0 --temp 0.0 --port 5004 --prompt_type v0 --src_file data/eval_set/bamboogle_500.jsonl --model_path the_path_to_model
 
+## Calculate Metric
+## Exact Match, Cover Exact Match, F1 Score
+python evaluation/metric_calc_rule.py the_path_to_results
+
+## LLM-as-Judge. Remember replace the input file to your own results.
+python evaluation/metric_calc_gpt_as_judge.py
 ```
 
 # 📄 Citation
