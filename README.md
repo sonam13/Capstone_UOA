@@ -2,11 +2,11 @@
 <h1 align="center"> R1-searcher:  Incentivizing the Search Capability in LLMs via Reinforcement Learning</a></h1>
 
 
-<div align="center"> 
+<div align="center">
 <a href="https://github.com/SsmallSong/RLRAG/edit/main//LICENSE"><img src="https://img.shields.io/badge/Code_License-MIT-blue" alt="license"></a>
 <a href="https://github.com/SsmallSong/RLRAG/edit/main//LICENSE"><img src="https://img.shields.io/badge/Model_License-MIT-blue" alt="license"></a>
 <a href="[https://huggingface.co/collections/yulan-team/yulan-mini-676d214b24376739b00d95f3](https://github.com/SsmallSong/RLRAG)"><img alt="Hugging Face" src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-blue?color=8A2BE2"></a>
- 
+
 </div>
 
 
@@ -35,7 +35,7 @@
 
 # 💡 Overview
 
-Large reasoning models (LRMs), such as OpnAI-o1 and Deepseek-R1, have demonstrated the significant impact of reinforcement learning in enhancing the long-step reasoning capabilities of models, thereby greatly improving their reasoning performance. Despite these advantages, when faced with knowledge-intensive problems, especially multi-hop questions and time-sensitive issues, these models may lack the necessary knowledge. Therefore, it is great important to enable LLMs to invoke web search and obtain external information during the reasoning process. 
+Large reasoning models (LRMs), such as OpnAI-o1 and Deepseek-R1, have demonstrated the significant impact of reinforcement learning in enhancing the long-step reasoning capabilities of models, thereby greatly improving their reasoning performance. Despite these advantages, when faced with knowledge-intensive problems, especially multi-hop questions and time-sensitive issues, these models may lack the necessary knowledge. Therefore, it is great important to enable LLMs to invoke web search and obtain external information during the reasoning process.
 
 We propose **R1-searcher**, utilizing a *two-stage outcome-supervision reinforcement learning* approach to enable the model to learn to invoke web search during the reasoning process: first allowing the model to learn how to invoke web search, and then teaching it how to effectively use that search engine. This method does not require any instruction fine-tuning for cold start, and at the same time, it is compatible with existing Base LLMs or Chat LLMs. We will open-source the training code, inference code, model checkpoints, and the detailed technical report.
 
@@ -74,7 +74,7 @@ We use only outcome-supervised reinforcement learning for training, so we need t
 
 ## Data
 
-We choose a portion of the training sets from HotpotQA and 2WikiMultiHopQA as our training data. We use Qwen-2.5-7B-Instruct to perform rollouts on the training dataset. 
+We choose a portion of the training sets from HotpotQA and 2WikiMultiHopQA as our training data. We use Qwen-2.5-7B-Instruct to perform rollouts on the training dataset.
 
 Based on the number of rollouts required to answer a question correctly, we classify the data into three categories: easy (<10 rollouts), medium (10 < and < 20 rollouts), and difficult (>20 rollouts). These categories are then mixed in a specific ratio to form our training data. All of our training data can be found here:  https://huggingface.co/datasets/XXsongLALA/RAG-RL-Hotpotqa-with-2wiki.
 
@@ -84,9 +84,9 @@ Based on the number of rollouts required to answer a question correctly, we clas
 # 📄 Evaluation
 Following ReARTeR(https://arxiv.org/pdf/2501.07861), we select four representative benchmarks: HotpotQA, 2WikiMultiHopQA, Musique, and Bamboogle.
 
-HotpotQA and 2WikiMultiHopQA are considered in-domain as we use their training-set, while Musique and Bamboogle are classified as out-of-domain, allowing us to assess the generalization capabilities of our model. We randomly sample 500 examples from the development sets of HotpotQA, 2WikiMultiHopQA,  and Musique to serve as our test sets. For Bamboogle, we use all of the test set (125 samples) as our test set.. 
+HotpotQA and 2WikiMultiHopQA are considered in-domain as we use their training-set, while Musique and Bamboogle are classified as out-of-domain, allowing us to assess the generalization capabilities of our model. We randomly sample 500 examples from the development sets of HotpotQA, 2WikiMultiHopQA,  and Musique to serve as our test sets. For Bamboogle, we use all of the test set (125 samples) as our test set..
 
-Wikipedia passages serve as the retrieval corpus for all datasets, specifically employing the [Wikipedia corpus released by KILT](https://github.com/facebookresearch/KILT) in August 2019. Additionally, due to the recency of the knowledge contained in Bamboogle, we incorporate online web search testing to conduct further evaluations, thereby examining the alignment of our model with online search capabilities. 
+Wikipedia passages serve as the retrieval corpus for all datasets, specifically employing the [Wikipedia corpus released by KILT](https://github.com/facebookresearch/KILT) in August 2019. Additionally, due to the recency of the knowledge contained in Bamboogle, we incorporate online web search testing to conduct further evaluations, thereby examining the alignment of our model with online search capabilities.
 
 For the evaluation metrics, we use the ACC_R (Cover-Exect-Match) and ACC_L (LLM-as-Judge).
 ![benchmark](https://github.com/SsmallSong/R1-Searcher/blob/main/assets/benchmarks.jpg)
@@ -98,8 +98,54 @@ For Bamboogle, we additionally utilize Google for online searches. As we can see
 
 
 # 🏃 Quick Start
+## Environment Setup
+> Note: the environment is same to [STILL-3](https://github.com/RUCAIBox/Slow_Thinking_with_LLMs/tree/main/STILL-3-TOOL) (Great work!).
+
+```bash
+conda create --name r1-searcher python=3.10.16
+conda activate r1-searcher
+pip install vllm==0.6.5
+pip install packaging
+pip install ninja
+pip install flash-attn --no-build-isolation
+pip install deepspeed
+pip install accelerate
+pip install datasets
+```
+## Data Preparation
+
+```bash
+cd R1-Searcher
+
+## download
+```
+## Training
+```bash
+cd R1-Searcher
+
+## Ray start
+bash scripts/ray_start.sh
+
+## Mount Wikipedia
+python train/wiki_corpus_load.py hotpotqa 5004 &
+
+## Start Reward Server
+python train/reward_server_qwen_zero.py --data_path data/training_set/stage_2.jsonl --reward_pretrain the_model_path --log_file results/samples/qwen.jsonl --port 1278
+
+## Training
+bash scripts/qwen_reinforce_plus_train.sh | tee results/logs/qwen_reinforce_plus_train.txt
+```
+## Evaluation
+
+```bash
+cd R1-Searcher
+
+## HotpotQA
+
+## 2Wiki, Musique, Bamboogle
 
 
+```
 
 # 📄 Citation
 Please kindly cite our report if they are helpful for your research.
