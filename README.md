@@ -118,8 +118,16 @@ pip install datasets
 cd R1-Searcher
 
 ## Process wiki only abs
+wget -nv --no-check-certificate https://rocketqa.bj.bcebos.com/corpus/nq.tar.gz
+tar -zxf nq.tar.gz
+rm -rf nq.tar.gz
 
 ## Process wiki full texts
+wget http://dl.fbaipublicfiles.com/KILT/kilt_knowledgesource.json
+
+## Index the tsv file. We recommend splitting the original TSV file into n parts for embedding, otherwise the process will be very slow.
+python wiki_corpus_index_bulid/build_corpus_embedding.py --file_path the_tsv_file_path --save_path the_pickle_path --gpu_id 0
+python wiki_corpus_index_bulid/build_corpus_idnex.py
 
 ```
 ## Training
