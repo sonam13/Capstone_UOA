@@ -39,12 +39,11 @@ Large reasoning models (LRMs), such as OpnAI-o1 and Deepseek-R1, have demonstrat
 
 We propose **R1-searcher**, utilizing a *two-stage outcome-supervision reinforcement learning* approach to enable the model to learn to invoke web search during the reasoning process: first allowing the model to learn how to invoke web search, and then teaching it how to effectively use that search engine. This method does not require any instruction fine-tuning for cold start, and at the same time, it is compatible with existing Base LLMs or Chat LLMs. We will open-source the training code, inference code, model checkpoints, and the detailed technical report.
 
-- Notion: https://sweet-walkover-f9b.notion.site/R1-Searcher-Incentivizing-the-Search-Capability-in-LLMs-via-Reinforcement-Learning-1a8c27a43d7a8023a70adc6e519875ff?pvs=74
+- Arxiv: https://arxiv.org/pdf/2503.05592 
 - Model:
     - Qwen-2.5-7B-Base-RAG-RL: https://huggingface.co/XXsongLALA/Qwen-2.5-7B-base-RAG-RL
     - Llama-3.1-8B-Instruct-RAG-RL: https://huggingface.co/XXsongLALA/Llama-3.1-8B-instruct-RAG-RL
 - Train-data:  https://huggingface.co/datasets/XXsongLALA/RAG-RL-Hotpotqa-with-2wiki
-- Technical report: coming soon…
 
 ![benchmark_picture](https://github.com/SsmallSong/R1-Searcher/blob/main/assets/benchmarks_visible.jpg)
 
