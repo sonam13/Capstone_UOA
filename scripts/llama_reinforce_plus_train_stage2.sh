@@ -12,11 +12,11 @@ wandb_token=xxx
 export WANDB_API_KEY=xxx
 
 # Path of training data
-DATA_PATH=/opt/aps/workdir/sht-RAG_RL/datasets/rollout/rollout_10/not_rollout_with_idx.jsonl
+DATA_PATH=/home/songhuatong/R1-Searcher/data/training_set/stage_2.jsonl
 # /home/songhuatong/OpenRLHF/data/demo_dataset
 #
 # Path of backbone model(DeepSeek-R1-Distill-Qwen-1.5B)
-TOKENIZER_PATH=/opt/aps/workdir/sht-RAG_RL/results/ckpts/llama-inst-stage1/_actor/ckpt-20-bf16
+TOKENIZER_PATH=llama-stage1-model-path
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 N_SAMPLES=16
 EPISODE=10000
