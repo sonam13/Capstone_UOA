@@ -179,7 +179,7 @@ Please kindly cite our report if they are helpful for your research.
 
 ```
 @article{R1-searcher,
-  title={R1-searcher:  Stimulating the Search Capability of LLM from Zero via Reinforcement Learning},
+  title={R1-Searcher: Incentivizing the Search Capability in LLMs via Reinforcement Learning},
   author={Huatong Song, Jinhao Jiang, Yingqian Min, Jie Chen, Zhipeng Chen, Wayne Xin Zhao, Ji-Rong Wen, Yang Lu, Xu Miu},
   url={https://github.com/SsmallSong/R1-searcher},
   year={2025}
