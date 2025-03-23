@@ -91,7 +91,7 @@ Predicted Answer: {prediction}
         model_output = generate(messages, 'gpt-4o-mini')
         obj["gpt4o_output"] = model_output
     else:
-        obj["gpt4o_output"] = "Fuck! No boxed"
+        obj["gpt4o_output"] = "！！ No boxed here ！！"
 
     try:
         print("=="*70)
