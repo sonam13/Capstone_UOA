@@ -3,9 +3,9 @@
 
 
 <div align="center">
-<a href="https://github.com/SsmallSong/RLRAG/edit/main//LICENSE"><img src="https://img.shields.io/badge/Code_License-MIT-blue" alt="license"></a>
-<a href="https://github.com/SsmallSong/RLRAG/edit/main//LICENSE"><img src="https://img.shields.io/badge/Model_License-MIT-blue" alt="license"></a>
-<a href="[https://huggingface.co/collections/yulan-team/yulan-mini-676d214b24376739b00d95f3](https://github.com/SsmallSong/RLRAG)"><img alt="Hugging Face" src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-blue?color=8A2BE2"></a>
+<a href="https://github.com/RUCAIBox/RLRAG/edit/main//LICENSE"><img src="https://img.shields.io/badge/Code_License-MIT-blue" alt="license"></a>
+<a href="https://github.com/RUCAIBox/RLRAG/edit/main//LICENSE"><img src="https://img.shields.io/badge/Model_License-MIT-blue" alt="license"></a>
+<a href="[https://huggingface.co/collections/yulan-team/yulan-mini-676d214b24376739b00d95f3](https://github.com/RUCAIBox/RLRAG)"><img alt="Hugging Face" src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-blue?color=8A2BE2"></a>
 <a href="https://arxiv.org/pdf/2503.05592" target="_blank"><img src=https://img.shields.io/badge/arXiv-b5212f.svg?logo=arxiv></a>
 
 </div>
@@ -49,7 +49,7 @@ We propose **R1-searcher**, utilizing a *two-stage outcome-supervision reinforce
     - Llama-3.1-8B-Instruct-RAG-RL: https://huggingface.co/XXsongLALA/Llama-3.1-8B-instruct-RAG-RL
 - Train-data:  https://huggingface.co/datasets/XXsongLALA/RAG-RL-Hotpotqa-with-2wiki
 
-![benchmark_picture](https://github.com/SsmallSong/R1-Searcher/blob/main/assets/benchmarks_visible.jpg)
+![benchmark_picture](https://github.com/RUCAIBox/R1-Searcher/blob/main/assets/benchmarks_visible.jpg)
 
 # ✨ Key Insights
 - By relying solely on outcome-supervised reinforcement learning, we can activate the model's intrinsic search capabilities using only the query-answer pair, regardless of whether we are dealing with Base LLMs or Chat LLMs.
@@ -93,11 +93,11 @@ HotpotQA and 2WikiMultiHopQA are considered in-domain as we use their training-s
 Wikipedia passages serve as the retrieval corpus for all datasets, specifically employing the [Wikipedia corpus released by KILT](https://github.com/facebookresearch/KILT) in August 2019. Additionally, due to the recency of the knowledge contained in Bamboogle, we incorporate online web search testing to conduct further evaluations, thereby examining the alignment of our model with online search capabilities.
 
 For the evaluation metrics, we use the ACC_R (Cover-Exect-Match) and ACC_L (LLM-as-Judge).
-![benchmark](https://github.com/SsmallSong/R1-Searcher/blob/main/assets/benchmarks.jpg)
+![benchmark](https://github.com/RUCAIBox/R1-Searcher/blob/main/assets/benchmarks.jpg)
 As we can see, when using the same LLaMA-3.1-8B-Instruct base model, our method has achieved significant improvements compared to existing methods, even surpassing closed-source models such as GPT-4o-mini. Furthermore, when switching to the more powerful base model, Qwen-2.5-7B-Base, we directly conduct reinforcement learning from scratch. Eventually, we can achieve better results and attain the best performance on all in-domain and out-of-domain datasets, demonstrating the exceptional generalization capabilities of our model.
 
 For Bamboogle, we additionally utilize Google for online searches. As we can see, compared to relying solely on a local knowledge base, the incorporation of online search yields superior results, indicating that it is feasible to seamlessly integrate online search capabilities into our model.
-![bamboogle](https://github.com/SsmallSong/R1-Searcher/blob/main/assets/bamboogle_online.jpg)
+![bamboogle](https://github.com/RUCAIBox/R1-Searcher/blob/main/assets/bamboogle_online.jpg)
 
 
 
@@ -184,7 +184,7 @@ Please kindly cite our report if they are helpful for your research.
 @article{R1-searcher,
   title={R1-Searcher: Incentivizing the Search Capability in LLMs via Reinforcement Learning},
   author={Huatong Song, Jinhao Jiang, Yingqian Min, Jie Chen, Zhipeng Chen, Wayne Xin Zhao, Ji-Rong Wen, Yang Lu, Xu Miu},
-  url={https://github.com/SsmallSong/R1-searcher},
+  url={https://github.com/RUCAIBox/R1-searcher},
   year={2025}
 }
 ```
