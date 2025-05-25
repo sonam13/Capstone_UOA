@@ -34,9 +34,14 @@
 <h5 align="center"> If you like our project, please give us a star ⭐ on GitHub for the latest update.</h5>
 
 
-# News
+# ✨ News
++ [22 May 2025] ⚡️⚡️ [**R1-Searcher++**](https://github.com/RUCAIBox/R1-Searcher-plus):We propose **R1-Searcher++**,  a framework for training LLMs to adaptively use internal and external knowledge. It uses a two-stage strategy: an initial SFT Cold-start phase for basic format learning, and an RL phase for Dynamic
+Knowledge Acquisition. In the RL phase, we introduce a reward mechanism for the utilization of internal knowledge and integrate a memorization mechanism to continuously assimilate the retrieved information, thereby enriching the model's internal knowledge.
+The paper can be found here: [**arxiv.org/abs/2505.17005**](https://arxiv.org/abs/2505.17005)
++ [22 May 2025] ⚡️⚡️ [**SimpleDeepSearcher-paper**](https://github.com/RUCAIBox/SimpleDeepSearcher):We release the paper of the SimpleDeepSearcher, which also explores the impact of using a distilled model as the backbone for continued reinforcement learning training, as well as the effects of incorporating long cot math reasoning data during the training process. Additionally, the paper includes comprehensive experiments. The paper can be found here: [**arxiv.org/abs/2505.16834**](https://arxiv.org/abs/2505.16834)
 + [16 Apr 2025] ⚡️⚡️ [**SimpleDeepSearcher**](https://github.com/RUCAIBox/SimpleDeepSearcher):We propose **SimpleDeepSearcher**, a framework designed to stimulate autonomous retrieval during complex reasoning via knowledge distillation and self-distillation. The goal is to achieve efficient and effective training using only a small amount of data.
 + [8 Mar 2025] ⚡️⚡️ [**R1-Searcher**](https://arxiv.org/abs/2503.05592)We propose **R1-searcher**, utilizing a *two-stage outcome-supervision reinforcement learning* approach to enable the model to learn to invoke web search during the reasoning process: first allowing the model to learn how to invoke web search, and then teaching it how to effectively use that search engine. This method does not require any instruction fine-tuning for cold start, and at the same time, it is compatible with existing Base LLMs or Chat LLMs.
+
 # 💡 Overview
 
 Large reasoning models (LRMs), such as OpnAI-o1 and Deepseek-R1, have demonstrated the significant impact of reinforcement learning in enhancing the long-step reasoning capabilities of models, thereby greatly improving their reasoning performance. Despite these advantages, when faced with knowledge-intensive problems, especially multi-hop questions and time-sensitive issues, these models may lack the necessary knowledge. Therefore, it is great important to enable LLMs to invoke web search and obtain external information during the reasoning process.
