@@ -151,8 +151,11 @@ bash scripts/ray_start.sh
 ## Mount Wikipedia
 python train/wiki_corpus_load.py hotpotqa 5004 &
 
-## Start Reward Server
-python train/reward_server_qwen_zero.py --data_path data/training_set/stage_2.jsonl --reward_pretrain the_model_path --log_file results/samples/qwen.jsonl --port 1278
+## Convert jsonl to hf dataset
+python train/jsonl2hf_dataset.py --input data/training_set/stage_2.jsonl --output data/training_set/stage_2
+
+## Start Reward Server 
+python train/reward_server_qwen_zero.py --data_path data/training_set/stage_2 --reward_pretrain the_model_path --log_file results/samples/qwen.jsonl --port 1278
 
 ## Training
 bash scripts/qwen_reinforce_plus_train.sh | tee results/logs/qwen_reinforce_plus_train.txt
