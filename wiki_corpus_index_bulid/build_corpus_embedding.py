@@ -1,9 +1,6 @@
-import faiss
 import pickle
 from FlagEmbedding import FlagModel
 import os
-
-
 import argparse
 import pickle
 import torch
@@ -28,12 +25,12 @@ def load_corpus(file_path):
 
 def process_corpus(file_path, save_path, gpu_id):
     # 设置使用的GPU
-    # if torch.cuda.is_available() and gpu_id >= 0:
-    #     torch.cuda.set_device(gpu_id)
-    #     print(f"Using GPU: {gpu_id}")
-    # else:
-    #     print("Using CPU")
-    # os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
+    if torch.cuda.is_available() and gpu_id >= 0:
+        torch.cuda.set_device(gpu_id)
+        print(f"Using GPU: {gpu_id}")
+    else:
+        print("Using CPU")
+    os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
     # 调用函数加载语料库
     print("Start load corpus")
     corpus = load_corpus(file_path)
@@ -45,9 +42,9 @@ def process_corpus(file_path, save_path, gpu_id):
     device = torch.device(f'cuda:{gpu_id}' if gpu_id >= 0 and torch.cuda.is_available() else 'cpu')
 
     # Load model (automatically use GPUs)
-    model = FlagModel('/opt/aps/workdir/model/bge-large-en-v1.5',
-                      query_instruction_for_retrieval="Represent this sentence for searching relevant passages:",
-                      use_fp16=False)
+    model = FlagModel("BAAI/bge-large-en-v1.5", 
+                  query_instruction_for_retrieval="Represent this sentence for searching relevant passages:",
+                  use_fp16=torch.cuda.is_available())
 
     print("Start encode")
     corpus_embeddings = model.encode_corpus(corpus, batch_size=1024, max_length=300)

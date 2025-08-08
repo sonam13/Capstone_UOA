@@ -10,7 +10,7 @@ first_tensors = []
 for i in range(14):
     # i=j+1
     # path = f"resources/data/corpus/nq/para_8part/part-0{i}-corpus_embedding.pickle"
-    path = f"/opt/aps/workdir/model/kilt_100/split_{i}.pickle"
+    path = f"/content/R1-Searcher/split.pickle"
     # path = f"/opt/aps/workdir/sht-RAG_RL/train/wiki_server/data/enwiki_add_2wiki.pickle"
     with open(path, 'rb') as f:
         ce = pickle.load(f)
@@ -40,7 +40,7 @@ print(index.is_trained)
 index.add(corpus_embeddings)
 print(f"total number of vectors: {index.ntotal}")
 
-path = "/opt/aps/workdir/model/kilt_100/enwiki_kilt_all.bin"
+path = "/content/enwiki_kilt_all.bin"
 # path = "/media/jiangjinhao/RAG-Star/enwiki-abs-index_w_title-bge-large-en-v1.5.bin"
 faiss.write_index(index, path)
 
