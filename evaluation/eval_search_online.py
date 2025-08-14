@@ -147,10 +147,10 @@ wikipedia._http = session  # 替换为自定义的 session
 #     api_key=os.environ.get("OPENAI_API_KEY"),
 #     base_url=os.environ.get("OPENAI_API_BASE")
 # )
-os.environ["GOOGLE_API_KEY"] = "AIzaSyBZb6PfzwULVP9rjwZzW7kwdfDIrO8tGOU"
+os.environ["GOOGLE_API_KEY"] = ""
 # os.environ["OPENAI_API_BASE"] = "xxx"
 # palm.configure(api_key=os.environ["GOOGLE_API_KEY"])
-genai.configure(api_key="AIzaSyBZb6PfzwULVP9rjwZzW7kwdfDIrO8tGOU")
+genai.configure(api_key="")
 def google_web_search(query, api_key, cx, num_results=5):
     url = "https://www.googleapis.com/customsearch/v1"
     params = {
@@ -423,8 +423,8 @@ def process_output(output, continued_answer, k):
             # Reuse search and info extraction logic
             BING_SUBSCRIPTION_KEY = "xxx"
             bing_endpoint = "xxx"
-            GOOGLE_API_KEY="AIzaSyBZb6PfzwULVP9rjwZzW7kwdfDIrO8tGOU"
-            GOOGLE_CX="43ae03a2e74494e46"
+            GOOGLE_API_KEY=""
+            GOOGLE_CX=""
             search_results = google_web_search(query + " site:en.wikipedia.org", GOOGLE_API_KEY, GOOGLE_CX)
             extracted_info = extract_relevant_info(search_results)
 
