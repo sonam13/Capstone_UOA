@@ -96,6 +96,8 @@ import json
 import multiprocessing
 from collections import defaultdict
 from tqdm import tqdm
+import google.generativeai as genai
+import os
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
@@ -139,12 +141,35 @@ session.proxies.update(proxies)
 wikipedia.set_lang('en')  # 这里设置为你需要的语言
 wikipedia._http = session  # 替换为自定义的 session
 
-os.environ["OPENAI_API_KEY"] = "xxx"
-os.environ["OPENAI_API_BASE"] = "xxx"
-client = OpenAI(
-    api_key=os.environ.get("OPENAI_API_KEY"),
-    base_url=os.environ.get("OPENAI_API_BASE")
-)
+# os.environ["OPENAI_API_KEY"] = "xxx"
+# os.environ["OPENAI_API_BASE"] = "xxx"
+# client = OpenAI(
+#     api_key=os.environ.get("OPENAI_API_KEY"),
+#     base_url=os.environ.get("OPENAI_API_BASE")
+# )
+os.environ["GOOGLE_API_KEY"] = "AIzaSyA4DT45epF1b1Z1VHYckv-V1yX0gFj7oV0"
+# os.environ["OPENAI_API_BASE"] = "xxx"
+# palm.configure(api_key=os.environ["GOOGLE_API_KEY"])
+genai.configure(api_key="AIzaSyA4DT45epF1b1Z1VHYckv-V1yX0gFj7oV0")
+def google_web_search(query, api_key, cx, num_results=5):
+    url = "https://www.googleapis.com/customsearch/v1"
+    params = {
+        "key": api_key,
+        "cx": cx,
+        "q": query,
+        "num": num_results
+    }
+    try:
+        r = requests.get(url, params=params)
+        r.raise_for_status()
+        results = r.json()
+        organic = []
+        for item in results.get("items", []):
+            organic.append({"title": item.get("title"), "link": item.get("link")})
+        return {"organic": organic}
+    except Exception as e:
+        print("Google Search error:", e)
+        return {"organic": []}
 
 def extract_text_from_url(url, use_jina=False, jina_api_key=None, snippet: Optional[str] = None):
 
@@ -197,33 +222,33 @@ def extract_text_from_url(url, use_jina=False, jina_api_key=None, snippet: Optio
 
 
 
-def bing_web_search(query, subscription_key, endpoint, market='en-US', language='en', timeout=20):
+# def bing_web_search(query, subscription_key, endpoint, market='en-US', language='en', timeout=20):
 
-    payload = json.dumps({
-        "q": query,  # 设置查询内容
-        "mkt": market,  # 设置市场
-        "setLang": language,  # 设置语言
-        "textDecorations": True,  # 启用文本装饰
-        "textFormat": "HTML"  # 设置文本格式
-    })
+#     payload = json.dumps({
+#         "q": query,  # 设置查询内容
+#         "mkt": market,  # 设置市场
+#         "setLang": language,  # 设置语言
+#         "textDecorations": True,  # 启用文本装饰
+#         "textFormat": "HTML"  # 设置文本格式
+#     })
 
-    headers = {
-        'X-API-KEY': subscription_key,
-        'Content-Type': 'application/json'
-    }
+#     headers = {
+#         'X-API-KEY': subscription_key,
+#         'Content-Type': 'application/json'
+#     }
 
-    try:
-        # 发送POST请求
-        response = requests.request("POST", endpoint, headers=headers, data=payload)
-        response.raise_for_status()  # Raise exception if the request failed 检查响应的状态码。如果返回的状态码是 4xx 或 5xx（表示客户端或服务器错误），它将引发 requests.exceptions.HTTPError 异常
-        search_results = response.json() #
-        return search_results
-    except Timeout:
-        print(f"Bing Web Search request timed out ({timeout} seconds) for query: {query}")
-        return {}  # Or you can choose to raise an exception
-    except requests.exceptions.RequestException as e:
-        print(f"Error occurred during Bing Web Search request: {e}")
-        return {}
+#     try:
+#         # 发送POST请求
+#         response = requests.request("POST", endpoint, headers=headers, data=payload)
+#         response.raise_for_status()  # Raise exception if the request failed 检查响应的状态码。如果返回的状态码是 4xx 或 5xx（表示客户端或服务器错误），它将引发 requests.exceptions.HTTPError 异常
+#         search_results = response.json() #
+#         return search_results
+#     except Timeout:
+#         print(f"Bing Web Search request timed out ({timeout} seconds) for query: {query}")
+#         return {}  # Or you can choose to raise an exception
+#     except requests.exceptions.RequestException as e:
+#         print(f"Error occurred during Bing Web Search request: {e}")
+#         return {}
 
 
 
@@ -243,16 +268,11 @@ def extract_relevant_info(search_results):
 
     return useful_info
 
-def generate(messages, model_name):
-    response = client.chat.completions.create(
-        **{
-            "model": model_name,
-            "messages": messages,
-            "max_tokens": 2048,
-        }
-    )
-    response = response.choices[0].message.content
-    return response
+def generate(messages, model_name="gemini-pro"):
+    prompt_text = "\n".join(f"{m['role']}: {m['content']}" for m in messages)
+    model = genai.GenerativeModel(model_name)
+    response = model.generate_content(prompt_text)
+    return response.text
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -403,7 +423,9 @@ def process_output(output, continued_answer, k):
             # Reuse search and info extraction logic
             BING_SUBSCRIPTION_KEY = "xxx"
             bing_endpoint = "xxx"
-            search_results = bing_web_search(query + " site:en.wikipedia.org", BING_SUBSCRIPTION_KEY, bing_endpoint)
+            GOOGLE_API_KEY="AIzaSyA4DT45epF1b1Z1VHYckv-V1yX0gFj7oV0"
+            GOOGLE_CX="43ae03a2e74494e46"
+            search_results = google_web_search(query + " site:en.wikipedia.org", GOOGLE_API_KEY, GOOGLE_CX)
             extracted_info = extract_relevant_info(search_results)
 
             doc_content = "None"
@@ -419,7 +441,7 @@ def process_output(output, continued_answer, k):
                 messages_summary = [{'role': 'user', 'content': summary_for_gpt}]
                 # print("messages_summary:",messages_summary)
 
-                model_output_summary = generate(messages_summary, 'gpt-4o-mini')
+                model_output_summary = generate(messages_summary, 'models/gemini-pro')
                 # print("model_output_summary",model_output_summary)
                 # kill
                 summary_doc = model_output_summary.split("[Exacted Content]")[-1]
