@@ -147,10 +147,10 @@ wikipedia._http = session  # 替换为自定义的 session
 #     api_key=os.environ.get("OPENAI_API_KEY"),
 #     base_url=os.environ.get("OPENAI_API_BASE")
 # )
-os.environ["GOOGLE_API_KEY"] = ""
+#os.environ["GOOGLE_API_KEY"] = ""
 # os.environ["OPENAI_API_BASE"] = "xxx"
 # palm.configure(api_key=os.environ["GOOGLE_API_KEY"])
-genai.configure(api_key="")
+genai.configure(api_key="AIzaSyBZb6PfzwULVP9rjwZzW7kwdfDIrO8tGOU")
 def google_web_search(query, api_key, cx, num_results=5):
     url = "https://www.googleapis.com/customsearch/v1"
     params = {
@@ -170,6 +170,22 @@ def google_web_search(query, api_key, cx, num_results=5):
     except Exception as e:
         print("Google Search error:", e)
         return {"organic": []}
+		
+# --- PATCH START: add clean answer saving ---
+def save_clean_answers(finished_texts, src_file, model_path):
+    out_file = src_file.replace(
+        ".jsonl",
+        f"-{model_path.split('/')[-1]}_answers.jsonl"
+    )
+    with open(out_file, "a") as f:
+        for text in finished_texts:
+            record = {
+                "question": text.get("question", ""),
+                "gold_answer": text.get("answer", ""),
+                "predicted_answer": text.get("pred_ans", "N/A")
+            }
+            f.write(json.dumps(record) + "\n")
+# --- PATCH END ---
 
 def extract_text_from_url(url, use_jina=False, jina_api_key=None, snippet: Optional[str] = None):
 
@@ -421,11 +437,8 @@ def process_output(output, continued_answer, k):
 
         if query:
             # Reuse search and info extraction logic
-            BING_SUBSCRIPTION_KEY = "xxx"
-            bing_endpoint = "xxx"
-            GOOGLE_API_KEY=""
-            GOOGLE_CX=""
-            search_results = google_web_search(query + " site:en.wikipedia.org", GOOGLE_API_KEY, GOOGLE_CX)
+            
+            search_results = google_web_search(query + " site:en.wikipedia.org", "AIzaSyBZb6PfzwULVP9rjwZzW7kwdfDIrO8tGOU", "43ae03a2e74494e46")
             extracted_info = extract_relevant_info(search_results)
 
             doc_content = "None"
@@ -570,6 +583,8 @@ def main():
                     with open(args.src_file.replace(".jsonl","-"+model_path.split("/")[-2]+model_path.split("/")[-1]+f"_base_temp{args.temp}_type{type}.jsonl"), "a") as f:
                         for text in finished_texts:
                             f.write(json.dumps(text) + "\n")
+					# save clean answers
+                    save_clean_answers(finished_texts, args.src_file, model_path)
 
                 break
             else:
@@ -581,13 +596,15 @@ def main():
 
             print("Begin Writing Epoch: ",k)
 
-            # print(continued_texts)
             print("=="*80)
+            # print(continued_texts)
             # print(finished_texts)
             if len(finished_texts)>0:
                 with open(args.src_file.replace(".jsonl","-"+model_path.split("/")[-2]+model_path.split("/")[-1]+f"_base_temp{args.temp}_type{type}.jsonl"), "a") as f:
                     for text in finished_texts:
                         f.write(json.dumps(text) + "\n")
+				# save clean answers
+                save_clean_answers(finished_texts, args.src_file, model_path)
 
     if dist.is_initialized():
             dist.destroy_process_group()
@@ -596,4 +613,3 @@ if __name__ == "__main__":
     main()
 
 # python /opt/aps/workdir/sht-RAG_RL/eval/gen_ckpt_solution_base.py --src_file /opt/aps/workdir/sht-RAG_RL/eval/datasets/hotpotqa.jsonl --model_path /opt/aps/workdir/sht-RAG_RL/results/ckpts/qwen2.5-7B-base-rm3-sft-data-2-grpo-dataset_hpqa-len_29000-tbs_64-rbs_16-sample_16-kl_0.0001-warmup_0.0-ep_10000-plr_2e-6-temp1.0-30k/ckpt --gpu_id 0
-
