@@ -85,6 +85,8 @@ import string
 from typing import Optional, Tuple
 from nltk.tokenize import sent_tokenize
 from bs4 import BeautifulSoup
+import math
+import numpy as np
 # import wikipediaapi
 
 
@@ -170,7 +172,7 @@ def google_web_search(query, api_key, cx, num_results=5):
     except Exception as e:
         print("Google Search error:", e)
         return {"organic": []}
-		
+
 # --- PATCH START: add clean answer saving ---
 def save_clean_answers(finished_texts, src_file, model_path):
     out_file = src_file.replace(
@@ -404,6 +406,52 @@ Then, the search system will provide you with the retrieval information with the
     examples["chat_prompt"] = chat_prompt + "<think>"
     return examples
 
+def compute_confidence(output):
+    """
+    Compute confidence from token logprobs if available, else fallback.
+    Lower entropy = higher confidence.
+    """
+    try:
+        token_logprobs = []
+        for t in output.outputs[0].token_logprobs:
+            if t is not None:
+                token_logprobs.append(t)
+        if not token_logprobs:
+            return 0.5  # unknown, neutral confidence
+        probs = np.exp(token_logprobs)
+        probs = probs / np.sum(probs)
+        entropy = -np.sum(probs * np.log(probs + 1e-9))
+        confidence = math.exp(-entropy)
+        return confidence
+    except:
+        text = output.outputs[0].text.lower()
+        if "i don't know" in text or "not sure" in text:
+            return 0.2
+        return 0.7
+
+
+def process_output_with_confidence(output, continued_answer, k, threshold=0.6):
+    """
+    Wraps process_output_with_cache but adds a confidence check.
+    If the model produces <answer> with low confidence, we force retrieval.
+    """
+    confidence = compute_confidence(output)
+    generated_text = output.outputs[0].text
+
+    if "<answer>" in generated_text and confidence < threshold:
+        print(f"⚠️ Low confidence ({confidence:.2f}), forcing retrieval instead of finalizing.")
+        prompt = output.prompt
+        return {
+            "chat_prompt": prompt + "<|begin_of_query|>" + continued_answer["question"] + "<|end_of_query|>\n\n",
+            "answer": continued_answer["answer"],
+            "question": continued_answer["question"],
+            "stop_reason": "low_confidence_triggered",
+            "gen_text_store": continued_answer["gen_text_store"] + generated_text.strip()
+        }, "continued"
+
+    # fallback: use your existing retrieval logic
+    return process_output_with_cache(output, continued_answer, k)
+
 # Modify process_output to skip already fetched URLs
 def process_output_with_cache(output, continued_answer, k):
     prompt = output.prompt
@@ -440,7 +488,7 @@ def process_output_with_cache(output, continued_answer, k):
 
         if query:
             # Reuse search and info extraction logic
-            
+
             search_results = google_web_search(query + " site:en.wikipedia.org", "AIzaSyBZb6PfzwULVP9rjwZzW7kwdfDIrO8tGOU", "43ae03a2e74494e46")
             extracted_info = extract_relevant_info(search_results)
 
@@ -574,7 +622,7 @@ def main():
             with ThreadPoolExecutor() as executor:
                 futures = []
                 for i, output in enumerate(outputs):
-                    futures.append(executor.submit(process_output_with_cache, output, continued_answer[i], k))
+                    futures.append(executor.submit(process_output_with_confidence, output, continued_answer[i], k))
 
                 for future in as_completed(futures):
                     obj, label = future.result()
