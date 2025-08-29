@@ -578,7 +578,7 @@ def main():
     if len(data_ori_all) % chunk_size != 0:
         chunk_num += 1
     tokenizer = AutoTokenizer.from_pretrained(model_path)
-    llm = LLM(model=model_path, tensor_parallel_size=1, gpu_memory_utilization=gpu_memory_rate, trust_remote_code=True)
+    llm = LLM(model=model_path, tensor_parallel_size=1, gpu_memory_utilization=gpu_memory_rate, trust_remote_code=True, max_model_len=96000)
 
     for h in range(chunk_num):
         print("=="*80)
