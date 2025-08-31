@@ -152,7 +152,7 @@ wikipedia._http = session  # 替换为自定义的 session
 #os.environ["GOOGLE_API_KEY"] = ""
 # os.environ["OPENAI_API_BASE"] = "xxx"
 # palm.configure(api_key=os.environ["GOOGLE_API_KEY"])
-genai.configure(api_key="AIzaSyBZb6PfzwULVP9rjwZzW7kwdfDIrO8tGOU")
+genai.configure(api_key="")
 def google_web_search(query, api_key, cx, num_results=5):
     url = "https://www.googleapis.com/customsearch/v1"
     params = {
@@ -489,7 +489,7 @@ def process_output_with_cache(output, continued_answer, k):
         if query:
             # Reuse search and info extraction logic
 
-            search_results = google_web_search(query + " site:en.wikipedia.org", "AIzaSyBZb6PfzwULVP9rjwZzW7kwdfDIrO8tGOU", "43ae03a2e74494e46")
+            search_results = google_web_search(query + " site:en.wikipedia.org", "", "")
             extracted_info = extract_relevant_info(search_results)
 
             doc_content = "None"
@@ -668,4 +668,5 @@ if __name__ == "__main__":
     main()
 
 # python /opt/aps/workdir/sht-RAG_RL/eval/gen_ckpt_solution_base.py --src_file /opt/aps/workdir/sht-RAG_RL/eval/datasets/hotpotqa.jsonl --model_path /opt/aps/workdir/sht-RAG_RL/results/ckpts/qwen2.5-7B-base-rm3-sft-data-2-grpo-dataset_hpqa-len_29000-tbs_64-rbs_16-sample_16-kl_0.0001-warmup_0.0-ep_10000-plr_2e-6-temp1.0-30k/ckpt --gpu_id 0
+
 
